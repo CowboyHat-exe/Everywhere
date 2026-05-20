@@ -1224,9 +1224,6 @@ Im Prompt können Platzhalter verwendet werden, die in {} enthalten sind und vor
     <data name="BuiltInChatPlugin_VisualContext_ExecuteVisualActions_Header" xml:space="preserve">
         <value>Automatisierte Aktionen</value>
     </data>
-    <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>Dateien über Everything suchen</value>
-    </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>Dokument</value>
     </data>

@@ -1225,9 +1225,6 @@ Le prompt peut contenir des espaces réservés, inclus dans {}, qui seront rempl
     <data name="BuiltInChatPlugin_VisualContext_ExecuteVisualActions_Header" xml:space="preserve">
         <value>Actions Automatisées</value>
     </data>
-    <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>Rechercher des fichiers via Everything</value>
-    </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>Document</value>
     </data>

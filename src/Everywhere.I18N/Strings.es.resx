@@ -1225,9 +1225,6 @@ Se pueden usar marcadores de posición en la palabra clave, que están contenido
     <data name="BuiltInChatPlugin_VisualContext_ExecuteVisualActions_Header" xml:space="preserve">
         <value>Acciones Automatizadas</value>
     </data>
-    <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>Buscar Archivos con Everything</value>
-    </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>Documento</value>
     </data>

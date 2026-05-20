@@ -1226,7 +1226,7 @@ Placeholders can be used in the prompt, enclosed in {}, which will be replaced w
         <value>Automate Actions</value>
     </data>
     <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>Search Files via Everything</value>
+        <value>Search Files</value>
     </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>Document</value>
@@ -2925,5 +2925,11 @@ Release date: {2}</value>
     </data>
     <data name="TerminalView_ErrorToolTip_Tip" xml:space="preserve">
         <value>Command started at {0}, failed after {1} seconds with exit code {2}</value>
+    </data>
+    <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Description" xml:space="preserve">
+        <value>Search files using Everything search engine.</value>
+    </data>
+    <data name="Assistant_ConfiguratorSelector_Advanced" xml:space="preserve">
+        <value>Advanced</value>
     </data>
 </root>

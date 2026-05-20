@@ -1226,7 +1226,7 @@
         <value>自動化操作</value>
     </data>
     <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>透過 Everything 搜尋檔案</value>
+        <value>搜尋檔案</value>
     </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>文件</value>

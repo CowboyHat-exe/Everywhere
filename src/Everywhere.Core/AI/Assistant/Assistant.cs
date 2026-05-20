@@ -94,7 +94,7 @@ public abstract partial class Assistant : ObservableValidator, IModelDefinition
     [DynamicResourceKey(
         LocaleKey.Assistant_RequestTimeoutSeconds_Header,
         LocaleKey.Assistant_RequestTimeoutSeconds_Description)]
-    [SettingsItem(Group = "Advanced")]
+    [SettingsItem(Group = LocaleKey.Assistant_ConfiguratorSelector_Advanced)]
     [SettingsIntegerItem(IsSliderVisible = false)]
     [DefaultValue(20)]
     public partial int RequestTimeoutSeconds { get; set; } = 20;
@@ -103,7 +103,7 @@ public abstract partial class Assistant : ObservableValidator, IModelDefinition
     [DynamicResourceKey(
         LocaleKey.Assistant_Temperature_Header,
         LocaleKey.Assistant_Temperature_Description)]
-    [SettingsItem(IsVisibleBindingPath = nameof(SupportsTemperature), Group = "Advanced")]
+    [SettingsItem(IsVisibleBindingPath = nameof(SupportsTemperature), Group = LocaleKey.Assistant_ConfiguratorSelector_Advanced)]
     [SettingsDoubleItem(Min = 0.0, Max = 2.0, Step = 0.01)]
     public partial Customizable<double> Temperature { get; set; } = 1.0;
 
@@ -111,7 +111,7 @@ public abstract partial class Assistant : ObservableValidator, IModelDefinition
     [DynamicResourceKey(
         LocaleKey.Assistant_TopP_Header,
         LocaleKey.Assistant_TopP_Description)]
-    [SettingsItem(IsVisibleBindingPath = nameof(SupportsTemperature), Group = "Advanced")]
+    [SettingsItem(IsVisibleBindingPath = nameof(SupportsTemperature), Group = LocaleKey.Assistant_ConfiguratorSelector_Advanced)]
     [SettingsDoubleItem(Min = 0.0, Max = 1.0, Step = 0.01)]
     public partial Customizable<double> TopP { get; set; } = 0.9;
 
@@ -125,7 +125,7 @@ public abstract partial class Assistant : ObservableValidator, IModelDefinition
     [DynamicResourceKey(
         LocaleKey.Assistant_ThinkingType_Header,
         LocaleKey.Assistant_ThinkingType_Description)]
-    [SettingsItem(IsVisibleBindingPath = nameof(SupportsReasoning), Group = "Advanced")]
+    [SettingsItem(IsVisibleBindingPath = nameof(SupportsReasoning), Group = LocaleKey.Assistant_ConfiguratorSelector_Advanced)]
     [SettingsSelectionItem(nameof(ReasoningEnabledOptions))]
     public partial string? ThinkingType { get; set; }
 
@@ -139,7 +139,7 @@ public abstract partial class Assistant : ObservableValidator, IModelDefinition
     [DynamicResourceKey(
         LocaleKey.Assistant_ReasoningEffort_Header,
         LocaleKey.Assistant_ReasoningEffort_Description)]
-    [SettingsItem(IsVisibleBindingPath = nameof(SupportsReasoning), Group = "Advanced")]
+    [SettingsItem(IsVisibleBindingPath = nameof(SupportsReasoning), Group = LocaleKey.Assistant_ConfiguratorSelector_Advanced)]
     [SettingsSelectionItem(nameof(DefaultReasoningEffortOptions), IsEditable = true)]
     public partial string? ReasoningEffort { get; set; }
 
@@ -147,7 +147,7 @@ public abstract partial class Assistant : ObservableValidator, IModelDefinition
     [DynamicResourceKey(
         LocaleKey.Assistant_ThinkingBudget_Header,
         LocaleKey.Assistant_ThinkingBudget_Description)]
-    [SettingsItem(IsVisibleBindingPath = nameof(SupportsReasoning), Group = "Advanced")]
+    [SettingsItem(IsVisibleBindingPath = nameof(SupportsReasoning), Group = LocaleKey.Assistant_ConfiguratorSelector_Advanced)]
     public partial string? ThinkingBudget { get; set; }
 
     private readonly OfficialAssistantConfigurator _officialConfigurator;

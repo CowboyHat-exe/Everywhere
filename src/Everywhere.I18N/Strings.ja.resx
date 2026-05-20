@@ -1225,9 +1225,6 @@
     <data name="BuiltInChatPlugin_VisualContext_ExecuteVisualActions_Header" xml:space="preserve">
         <value>自動化操作</value>
     </data>
-    <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>Everythingでファイルを検索</value>
-    </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>ドキュメント</value>
     </data>

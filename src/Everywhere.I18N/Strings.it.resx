@@ -1225,9 +1225,6 @@ Nel prompt possono essere utilizzati segnaposto, racchiusi in {}, che verranno s
     <data name="BuiltInChatPlugin_VisualContext_ExecuteVisualActions_Header" xml:space="preserve">
         <value>Operazioni di Automazione</value>
     </data>
-    <data name="Windows_BuiltInChatPlugin_Everything_SearchFiles_Header" xml:space="preserve">
-        <value>Cerca File tramite Everything</value>
-    </data>
     <data name="ChatWindowViewModel_AddFile_FilePickerFileType_Documents" xml:space="preserve">
         <value>Documento</value>
     </data>
