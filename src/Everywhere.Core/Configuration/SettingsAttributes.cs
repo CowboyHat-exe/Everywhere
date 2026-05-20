@@ -37,6 +37,13 @@ public class SettingsItemAttribute : Attribute
     /// Marks this settings item as experimental.
     /// </summary>
     public bool IsExperimental { get; set; }
+
+    /// <summary>
+    /// Groups multiple settings items under a common header.
+    /// Items with the same non-null Group value will be wrapped in a <see cref="SettingsGroupItem"/>.
+    /// If starts with "_", group header will hidden.
+    /// </summary>
+    public string? Group { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Property)]
