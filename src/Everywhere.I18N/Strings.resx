@@ -2932,4 +2932,16 @@ Release date: {2}</value>
     <data name="Assistant_ConfiguratorSelector_Advanced" xml:space="preserve">
         <value>Advanced</value>
     </data>
+    <data name="ChatWindowSettings_Group_Behavior" xml:space="preserve">
+        <value />
+    </data>
+    <data name="ChatWindowSettings_Group_Attachment" xml:space="preserve">
+        <value />
+    </data>
+    <data name="ChatWindowSettings_Group_Display" xml:space="preserve">
+        <value />
+    </data>
+    <data name="ChatPluginPage_McpFunctionsEmptyContent_EmptyListInstruction" xml:space="preserve">
+        <value />
+    </data>
 </root>

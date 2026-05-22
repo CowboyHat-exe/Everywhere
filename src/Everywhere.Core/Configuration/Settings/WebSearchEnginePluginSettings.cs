@@ -45,18 +45,21 @@ public sealed partial class OfficialWebSearchEngineSettings : ObservableObject
     [DynamicResourceKey(
         LocaleKey.OfficialWebSearchEngineProvider_Depth_Header,
         LocaleKey.OfficialWebSearchEngineProvider_Depth_Description)]
+    [SettingsItem(Group = "_")]
     public partial OfficialConnector.SearchDepth Depth { get; set; }
 
     [ObservableProperty]
     [DynamicResourceKey(
         LocaleKey.OfficialWebSearchEngineProvider_Topic_Header,
         LocaleKey.OfficialWebSearchEngineProvider_Topic_Description)]
+    [SettingsItem(Group = "_")]
     public partial OfficialConnector.SearchTopic Topic { get; set; }
 
     [ObservableProperty]
     [DynamicResourceKey(
         LocaleKey.OfficialWebSearchEngineProvider_TimeRange_Header,
         LocaleKey.OfficialWebSearchEngineProvider_TimeRange_Description)]
+    [SettingsItem(Group = "_")]
     public partial OfficialConnector.SearchTimeRange TimeRange { get; set; }
 }
 
@@ -147,6 +150,7 @@ public sealed partial class GoogleWebSearchEngineProvider(ObservableCollection<A
     [DynamicResourceKey(
         LocaleKey.WebSearchEngineProvider_EndPoint_Header,
         LocaleKey.WebSearchEngineProvider_EndPoint_Description)]
+    [SettingsItem(Group = "_")]
     public Customizable<string> EndPoint { get; } = new("https://customsearch.googleapis.com", isDefaultValueReadonly: true);
 
     [ObservableProperty]
@@ -159,6 +163,7 @@ public sealed partial class GoogleWebSearchEngineProvider(ObservableCollection<A
     [DynamicResourceKey(
         LocaleKey.WebSearchEngineProvider_ApiKey_Header,
         LocaleKey.WebSearchEngineProvider_ApiKey_Description)]
+    [SettingsItem(Group = "_")]
     public SettingsControl<ApiKeyComboBox> ApiKeyControl => new(
         new ApiKeyComboBox(apiKeys)
         {
@@ -175,6 +180,7 @@ public sealed partial class GoogleWebSearchEngineProvider(ObservableCollection<A
         LocaleKey.WebSearchEngineProvider_SearchEngineId_Description)]
     [NotifyDataErrorInfo]
     [CustomValidation(typeof(GoogleWebSearchEngineProvider), nameof(ValidateSearchEngineId))]
+    [SettingsItem(Group = "_")]
     public partial string? SearchEngineId { get; set; }
 
     public static ValidationResult? ValidateSearchEngineId(string? searchEngineId)
@@ -216,6 +222,7 @@ public sealed partial class ApiKeyWebSearchEngineProvider(
     [DynamicResourceKey(
         LocaleKey.WebSearchEngineProvider_EndPoint_Header,
         LocaleKey.WebSearchEngineProvider_EndPoint_Description)]
+    [SettingsItem(Group = "_")]
     public required Customizable<string> EndPoint { get; init; }
 
     [ObservableProperty]
@@ -228,6 +235,7 @@ public sealed partial class ApiKeyWebSearchEngineProvider(
     [DynamicResourceKey(
         LocaleKey.WebSearchEngineProvider_ApiKey_Header,
         LocaleKey.WebSearchEngineProvider_ApiKey_Description)]
+    [SettingsItem(Group = "_")]
     public SettingsControl<ApiKeyComboBox> ApiKeyControl => new(
         new ApiKeyComboBox(apiKeys)
         {

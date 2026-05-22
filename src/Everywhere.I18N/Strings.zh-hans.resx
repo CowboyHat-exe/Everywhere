@@ -2933,4 +2933,16 @@
     <data name="Assistant_ConfiguratorSelector_Advanced" xml:space="preserve">
         <value>高级</value>
     </data>
+    <data name="ChatWindowSettings_Group_Attachment" xml:space="preserve">
+        <value>附件</value>
+    </data>
+    <data name="ChatWindowSettings_Group_Behavior" xml:space="preserve">
+        <value>行为</value>
+    </data>
+    <data name="ChatWindowSettings_Group_Display" xml:space="preserve">
+        <value>显示</value>
+    </data>
+    <data name="ChatPluginPage_McpFunctionsEmptyContent_EmptyListInstruction" xml:space="preserve">
+        <value>运行以获取工具列表</value>
+    </data>
 </root>
