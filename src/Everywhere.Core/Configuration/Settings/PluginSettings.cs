@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Everywhere.Chat.Plugins;
 using Everywhere.Collections;
@@ -75,6 +75,11 @@ public partial class McpChatPluginEntity : ObservableObject
         {
             return null;
         }
+
+        // Self-heal persisted Guid.Empty IDs; they cause KernelPluginCollection to throw
+        // a duplicate-key ArgumentException when two or more zero-ID plugins are loaded.
+        if (Id == Guid.Empty)
+            Id = Guid.CreateVersion7();
 
         return new McpChatPlugin(Id, transportConfiguration);
     }
