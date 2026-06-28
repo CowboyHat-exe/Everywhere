@@ -50,7 +50,7 @@ public sealed partial class WindowsUpdateHandler(INativeHelper nativeHelper) : I
 
     private static async Task UpdateViaPortableAsync(string zipPath, CancellationToken cancellationToken = default)
     {
-        var scriptPath = Path.Combine(Path.GetTempPath(), "update.bat");
+        var scriptPath = Path.Combine(Path.GetTempPath(), $"update_{Guid.NewGuid():N}.bat");
         var exeLocation = Assembly.GetExecutingAssembly().Location;
         var currentDir = Path.GetDirectoryName(exeLocation)!;
 

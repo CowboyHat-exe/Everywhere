@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using Avalonia.Platform.Storage;
 
 namespace Everywhere.Interop;
 
-public sealed partial class BetterBclLauncher : ILauncher
+public sealed class BetterBclLauncher : ILauncher
 {
     public static ILauncher Shared { get; } = new BetterBclLauncher();
 
@@ -33,9 +32,27 @@ public sealed partial class BetterBclLauncher : ILauncher
     {
         if (OperatingSystem.IsLinux())
         {
-            // If no associated application/json MimeType is found xdg-open opens return error
-            // but it tries to open it anyway using the console editor (nano, vim, other..)
-            ShellExec($"xdg-open {urlOrFile}");
+            // Use ArgumentList to pass the argument directly to xdg-open without shell interpretation,
+            // avoiding command injection via crafted file paths or URIs.
+            var psi = new ProcessStartInfo
+            {
+                FileName = "xdg-open",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            psi.ArgumentList.Add(urlOrFile);
+
+            try
+            {
+                using var process = Process.Start(psi);
+            }
+            catch
+            {
+                // Best-effort: xdg-open may not be available
+            }
+
             return true;
         }
 
@@ -75,23 +92,4 @@ public sealed partial class BetterBclLauncher : ILauncher
 
         return false;
     }
-
-    private static void ShellExec(string cmd)
-    {
-        var escapedArgs = ShellEscapeRegex().Replace(cmd, "\\").Replace("\"", "\\\\\\\"");
-        using var process = Process.Start(
-            new ProcessStartInfo
-            {
-                FileName = "/bin/sh",
-                Arguments = $"-c \"{escapedArgs}\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden
-            }
-        );
-    }
-
-    [GeneratedRegex("(?=[`~!#&*()|;'<>])")]
-    private static partial Regex ShellEscapeRegex();
 }
