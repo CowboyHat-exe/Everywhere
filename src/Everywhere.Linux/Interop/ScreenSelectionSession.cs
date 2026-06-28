@@ -144,7 +144,7 @@ internal abstract class ScreenSelectionSession : ScreenSelectionTransparentWindo
 
     private void OnMouseWheel(int delta)
     {
-        CurrentMode = ScreenSelectionHelpers.CycleMode(_allowedModes, CurrentMode, delta);
+        CurrentMode = ScreenSelectionHelpers.CycleMode(_allowedModes, CurrentMode, delta, wrap: false);
         HandlePickModeChanged();
     }
 

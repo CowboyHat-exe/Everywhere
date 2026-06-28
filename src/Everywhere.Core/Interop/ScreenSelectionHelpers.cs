@@ -17,16 +17,18 @@ public static class ScreenSelectionHelpers
     }
 
     /// <summary>
-    /// Cycles to the next selection mode based on mouse wheel direction, wrapping around.
+    /// Cycles to the next selection mode based on mouse wheel direction.
     /// </summary>
     /// <param name="allowedModes">The list of allowed modes to cycle through.</param>
     /// <param name="currentMode">The current selection mode.</param>
     /// <param name="delta">Positive for scroll up (previous), negative for scroll down (next).</param>
+    /// <param name="wrap">If true, wraps around at boundaries; if false, clamps to first/last mode.</param>
     /// <returns>The new selection mode after cycling.</returns>
     public static ScreenSelectionMode CycleMode(
         IReadOnlyList<ScreenSelectionMode> allowedModes,
         ScreenSelectionMode currentMode,
-        int delta)
+        int delta,
+        bool wrap = true)
     {
         var currentIndex = -1;
         for (var i = 0; i < allowedModes.Count; i++)
@@ -39,8 +41,15 @@ public static class ScreenSelectionHelpers
         }
 
         var newIndex = currentIndex + (delta > 0 ? -1 : 1);
-        if (newIndex < 0) newIndex = allowedModes.Count - 1;
-        else if (newIndex >= allowedModes.Count) newIndex = 0;
+        if (wrap)
+        {
+            if (newIndex < 0) newIndex = allowedModes.Count - 1;
+            else if (newIndex >= allowedModes.Count) newIndex = 0;
+        }
+        else
+        {
+            newIndex = Math.Clamp(newIndex, 0, allowedModes.Count - 1);
+        }
         return allowedModes[newIndex];
     }
 
