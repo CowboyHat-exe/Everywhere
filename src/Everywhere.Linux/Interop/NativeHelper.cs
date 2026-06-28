@@ -81,16 +81,50 @@ public class NativeHelper(IEventHelper eventHelper) : INativeHelper
 
     public Task<bool> ShowDesktopNotificationAsync(string message, string? title = null)
     {
-        // Try to use libnotify via command line as a best-effort notification
-        var args = $"-u normal \"{title ?? "Everywhere"}\" \"{message}\"";
-        Process.Start("notify-send", args);
+        // Use ArgumentList to avoid shell injection via crafted notification content
+        var psi = new ProcessStartInfo
+        {
+            FileName = "notify-send",
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        psi.ArgumentList.Add("-u");
+        psi.ArgumentList.Add("normal");
+        psi.ArgumentList.Add(title ?? "Everywhere");
+        psi.ArgumentList.Add(message);
+
+        try
+        {
+            Process.Start(psi);
+        }
+        catch
+        {
+            // Best-effort: notify-send may not be available
+        }
+
         return Task.FromResult(false);
     }
 
     public void OpenFileLocation(string fullPath)
     {
         if (fullPath.IsNullOrWhiteSpace()) return;
-        var args = $"\"{fullPath}\"";
-        Process.Start(new ProcessStartInfo("xdg-open", args) { UseShellExecute = true });
+
+        // Use ArgumentList to pass the path directly without shell interpretation
+        var psi = new ProcessStartInfo
+        {
+            FileName = "xdg-open",
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        psi.ArgumentList.Add(Path.GetDirectoryName(fullPath) ?? fullPath);
+
+        try
+        {
+            Process.Start(psi);
+        }
+        catch
+        {
+            // Best-effort: xdg-open may not be available
+        }
     }
 }

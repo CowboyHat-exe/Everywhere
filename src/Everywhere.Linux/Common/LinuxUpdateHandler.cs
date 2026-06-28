@@ -75,10 +75,18 @@ public sealed partial class LinuxUpdateHandler : IPlatformUpdateHandler
             switch (OsPackageType)
             {
                 case "deb":
-                    Process.Start(
-                        new ProcessStartInfo("sudo", $"dpkg -i \"{assetPath}\"") { UseShellExecute = true }
-                        )?.WaitForExit();
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = "sudo",
+                        UseShellExecute = false
+                    };
+                    psi.ArgumentList.Add("dpkg");
+                    psi.ArgumentList.Add("-i");
+                    psi.ArgumentList.Add(assetPath);
+                    Process.Start(psi)?.WaitForExit();
                     break;
+                }
                 case "rpm":
                     // Todo: Needs rpm installation implementation
                     break;
