@@ -4,7 +4,7 @@
 
 Everywhere is a cross-platform AI assistant desktop application written in C# targeting .NET 10. It integrates multiple LLM providers (Claude, OpenAI, Google Gemini, local Ollama), supports the Model Context Protocol (MCP), provides deep OS-level integration (terminal, screen capture, accessibility), and features a plugin/strategy engine for automated task execution. The UI is built with Avalonia (XAML-based, cross-platform).
 
-Current version: **v0.7.8** (see `CHANGELOG.md`)
+See `CHANGELOG.md` for the current version and release notes.
 
 ---
 
@@ -12,7 +12,7 @@ Current version: **v0.7.8** (see `CHANGELOG.md`)
 
 ```
 /
-├── src/                            # All production source code (9 projects)
+├── src/                            # All production source code (10 projects)
 │   ├── Everywhere.Abstractions/    # Interfaces and core contracts (no dependencies on Core)
 │   ├── Everywhere.Core/            # Main application logic, UI, AI, plugins, chat
 │   ├── Everywhere.Cloud/           # Everywhere Cloud API integration
@@ -63,9 +63,11 @@ Everywhere.Core/
 │   ├── Plugins/         # Chat plugin system (built-in tools + MCP)
 │   ├── Permissions/     # Tool-use permission/approval system
 │   └── VisualContext/   # Screen capture and visual element analysis
+├── Common/              # App startup (Entrance.cs), ServiceLocator, shared helpers
 ├── Configuration/       # Settings, API keys, persistent configuration
 ├── Database/            # EF Core SQLite context, migrations, interceptors
-├── Initialization/      # App startup and DI composition (Entrance.cs)
+├── Initialization/      # Per-subsystem initializers (chat, network, settings, updater)
+├── Storage/             # Chat persistence helpers
 ├── StrategyEngine/      # Automated workflow execution engine
 ├── Terminal/            # PTY-based terminal integration
 ├── ViewModels/          # MVVM ViewModels (CommunityToolkit.Mvvm)
@@ -222,7 +224,10 @@ Platform-specific code uses preprocessor constants defined in `Directory.Build.p
 | `OSX` / `MACOS` / `IsOSX` / `IsMacOS` | Building on macOS |
 | `UNIX` / `IsUnix` | Linux or macOS |
 | `DESKTOP` / `IsDesktop` | Any desktop platform |
-| `X64` / `ARM64` / `X86` / `ARM` | Architecture-specific |
+| `X64` / `IsX64` | x86-64 architecture |
+| `ARM64` / `IsARM64` | ARM64 architecture |
+| `X86` / `IsX86` | x86 architecture |
+| `ARM` / `IsARM` | ARM architecture |
 
 Use `#if WINDOWS` style guards for platform-specific code paths.
 
@@ -236,7 +241,7 @@ Use `#if WINDOWS` style guards for platform-specific code paths.
 ### Dependency Injection
 
 - `Microsoft.Extensions.DependencyInjection` is the DI container.
-- Services are registered in platform entry points and `Entrance.cs` (`src/Everywhere.Core/Initialization/`).
+- Services are registered in platform entry points and `Entrance.cs` (`src/Everywhere.Core/Common/`).
 - Use constructor injection; avoid `ServiceLocator` except at composition roots.
 
 ### Naming
@@ -276,7 +281,7 @@ When modifying vendored code, understand which patch file (in `patches/`) govern
 
 ## Internationalization (I18N)
 
-- Localization strings live in `src/Everywhere.Core/I18N/*.resx` files.
+- Localization strings live in `src/Everywhere.I18N/Strings.*.resx` files (a dedicated project, not inside Core).
 - These are consumed by the `Everywhere.I18N.SourceGenerator` Roslyn analyzer to generate type-safe accessors.
 - The `sync-i18n.yml` CI workflow syncs translations.
 - Add new strings to the base `.resx` file; the source generator handles the rest.
@@ -306,7 +311,7 @@ When modifying vendored code, understand which patch file (in `patches/`) govern
 
 - `src/Everywhere.Core/AI/` contains per-provider "kernel mixin" classes that extend `IKernelBuilder`.
 - The abstraction layer is `Microsoft.Extensions.AI` (`IChatClient`).
-- Semantic Kernel (`IKernel`) orchestrates multi-step tool use.
+- Semantic Kernel (`Kernel`) orchestrates multi-step tool use.
 - MCP servers are integrated via the `ModelContextProtocol` package.
 - Token counting uses `Microsoft.ML.Tokenizers` (O200k base for GPT-family).
 - For Claude specifically, the `Anthropic` SDK is used directly in some paths.
@@ -348,6 +353,7 @@ When modifying vendored code, understand which patch file (in `patches/`) govern
 | `macos-release.yml` | Tag `v*.*.*` or manual | Build macOS DMG/app bundle |
 | `linux-release.yml` | Tag `v*.*.*` or manual | Build Linux AppImage |
 | `aur-publish.yml` | Release | Publish to AUR (Arch Linux) |
+| `cla.yml` | PR events | Sylinko CLA Bot |
 | `sync-i18n.yml` | Push | Sync translation files |
 | `close-stale-issues.yml` | Schedule | Automated issue hygiene |
 
@@ -362,7 +368,7 @@ Releases are triggered by pushing a `v*.*.*` tag. Workflows can also be triggere
 | `global.json` | SDK version pin |
 | `Directory.Build.props` | Global MSBuild properties, platform constants |
 | `Directory.Packages.props` | Centralized NuGet version management |
-| `src/Everywhere.Core/Initialization/Entrance.cs` | App startup and DI registration |
+| `src/Everywhere.Core/Common/Entrance.cs` | App startup and DI registration |
 | `src/Everywhere.Core/App.axaml.cs` | Avalonia Application class |
 | `src/Everywhere.Core/Global.cs` | Global constants and helpers |
 | `src/Everywhere.Windows/Program.cs` | Windows entry point |
