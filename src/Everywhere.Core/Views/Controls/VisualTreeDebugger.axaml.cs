@@ -113,9 +113,9 @@ public partial class VisualTreeDebugger : UserControl
                 _rootElements.Add(element);
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignored
+            Debug.WriteLine($"Failed to pick visual element: {ex}");
         }
 
         if (window is not null) _windowHelper.SetCloaked(window, false);
@@ -174,9 +174,9 @@ public partial class VisualTreeDebugger : UserControl
             _ = ex;
             Debugger.Break();
 #else
-        catch
+        catch (Exception ex)
         {
-            // ignored
+            Debug.WriteLine($"Failed to build visual tree: {ex}");
 #endif
         }
     }

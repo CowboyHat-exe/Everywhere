@@ -91,21 +91,23 @@ public sealed class VisualElementEffect(
                     startSize);
             }
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogWarning(ex, "Failed to create pick effect");
             chatAttachment.Opacity = 1d;
         }
     }
 
-    private static async Task<Bitmap?> CreateStartBitmapAsync(IVisualElement visualElement)
+    private async Task<Bitmap?> CreateStartBitmapAsync(IVisualElement visualElement)
     {
         try
         {
             using var pointer = await visualElement.CaptureAsync(CancellationToken.None);
             return pointer.ToAvaloniaBitmap();
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogWarning(ex, "Failed to capture visual element for pick effect");
             return null;
         }
     }

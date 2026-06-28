@@ -121,9 +121,9 @@ public sealed partial class OAuthCloudClient :
             {
                 await LogoutCoreAsync(false, cancellationToken);
             }
-            catch
+            catch (Exception logoutEx)
             {
-                // Ignore
+                _logger.LogWarning(logoutEx, "Failed to logout after login cancellation");
             }
         }
         catch (Exception ex)
@@ -437,7 +437,7 @@ public sealed partial class OAuthCloudClient :
             {
                 return JsonSerializer.Deserialize(json, TokenDataJsonSerializerContext.Default.TokenData);
             }
-            catch
+            catch (JsonException)
             {
                 return null;
             }

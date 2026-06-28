@@ -5,6 +5,7 @@ using Everywhere.Cloud;
 using Everywhere.Common;
 using Everywhere.Configuration;
 using Everywhere.Database;
+using Serilog;
 
 namespace Everywhere.Views;
 
@@ -47,9 +48,9 @@ public sealed partial class UserProfileCard : TemplatedControl
         {
             await CloudClient.ReloadUserDataAsync(cancellationToken);
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore
+            Log.ForContext<UserProfileCard>().Warning(ex, "Failed to refresh user profile");
         }
     }
 

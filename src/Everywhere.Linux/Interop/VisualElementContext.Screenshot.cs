@@ -3,6 +3,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Everywhere.Interop;
 using Everywhere.Utilities;
+using Serilog;
 
 namespace Everywhere.Linux.Interop;
 
@@ -198,8 +199,9 @@ public partial class VisualElementContext
                 using var pointer = Backend.Capture(null, rect);
                 return pointer.ToAvaloniaBitmap();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.ForContext<VisualElementContext>().Warning(ex, "Failed to capture screenshot for region {Rect}", rect);
                 return null;
             }
         }

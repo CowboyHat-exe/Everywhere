@@ -145,9 +145,9 @@ public sealed class PersistentKeyValueStorage : IKeyValueStorage, IAsyncInitiali
         {
             snapshot = new Dictionary<string, byte[]>(_store);
         }
-        catch
+        catch (Exception ex)
         {
-            // In case of concurrent modification issues
+            _logger.LogWarning(ex, "Failed to snapshot storage for save due to concurrent modification");
             return;
         }
 

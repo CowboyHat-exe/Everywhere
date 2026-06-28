@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using ITimer = Everywhere.Common.ITimer;
 
 namespace Everywhere.Utilities;
@@ -78,10 +79,9 @@ public class DebounceExecutor<TSender, TTimer> : IDisposable where TTimer : clas
             var value = _valueProvider();
             _action(value);
         }
-        catch
+        catch (Exception ex)
         {
-            // Depending on requirements, you might want to log exceptions here.
-            // By default, we suppress exceptions from the provider or action to prevent the timer from crashing.
+            Trace.TraceWarning("Unhandled exception in DebounceExecutor callback: {0}", ex);
         }
     }
 

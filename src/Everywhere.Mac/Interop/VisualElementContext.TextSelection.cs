@@ -289,8 +289,9 @@ partial class VisualElementContext
             {
                 await SendCopyKeyAsync(pid);
             }
-            catch
+            catch (Exception ex)
             {
+                Log.ForContext<TextSelectionDetector>().Debug(ex, "Failed to send copy key to process {Pid}", pid);
                 return null;
             }
 
@@ -366,8 +367,9 @@ partial class VisualElementContext
 #pragma warning restore CS0618
                 return contentString;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.ForContext<TextSelectionDetector>().Debug(ex, "Failed to read clipboard");
                 return null;
             }
         }
@@ -388,8 +390,9 @@ partial class VisualElementContext
 #pragma warning restore CS0618
                 return success;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.ForContext<TextSelectionDetector>().Debug(ex, "Failed to write clipboard");
                 return false;
             }
         }

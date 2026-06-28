@@ -3,6 +3,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using Everywhere.Extensions;
+using Serilog;
 using ZLinq;
 
 namespace Everywhere.Windows.Interop;
@@ -93,7 +94,7 @@ internal sealed class MessageWindow
             }
             foreach (var h in snapshot.AsValueEnumerable())
             {
-                try { h(in msg); } catch { /* swallow */ }
+                try { h(in msg); } catch (Exception ex) { Log.ForContext<MessageWindow>().Warning(ex, "Exception in message handler for message {MessageId}", msg.message); }
             }
 
             PInvoke.TranslateMessage(&msg);

@@ -585,14 +585,19 @@ public sealed class RuntimeManager(
             .Select(parts => parts[0]).FirstOrDefault();
     }
 
-    private static async Task<string?> TryGetStringAsync(HttpClient httpClient, string url, CancellationToken cancellationToken)
+    private async Task<string?> TryGetStringAsync(HttpClient httpClient, string url, CancellationToken cancellationToken)
     {
         try
         {
             return await httpClient.GetStringAsync(url, cancellationToken).ConfigureAwait(false);
         }
-        catch
+        catch (OperationCanceledException)
         {
+            return null;
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "Failed to fetch string from {Url}", url);
             return null;
         }
     }

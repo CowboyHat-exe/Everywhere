@@ -216,8 +216,9 @@ public sealed class TerminalView : TemplatedControl
             text = await clipboard.TryGetTextAsync();
             if (string.IsNullOrEmpty(text)) return;
         }
-        catch
+        catch (Exception ex)
         {
+            Log.ForContext<TerminalView>().Warning(ex, "Failed to read clipboard for paste");
             return;
         }
 

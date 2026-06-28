@@ -272,7 +272,10 @@ public class ChatTextEditor : TemplatedControl
 
                 textArea.Caret.BringCaretToView();
             }
-            catch (OutOfMemoryException) { } // May happen when pasting huge text
+            catch (OutOfMemoryException ex)
+            {
+                Log.ForContext<ChatTextEditor>().Warning(ex, "Out of memory while pasting text");
+            }
             finally
             {
                 textArea.Document.EndUpdate();

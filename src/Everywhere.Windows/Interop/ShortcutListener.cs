@@ -409,8 +409,9 @@ public unsafe sealed class ShortcutListener : IShortcutListener, IDisposable
         private void SafeInvoke()
         {
             try { Handler(); }
-            catch
-            { /* swallow */
+            catch (Exception ex)
+            {
+                Log.ForContext<ShortcutListener>().Warning(ex, "Exception in keyboard shortcut long-press handler");
             }
         }
     }

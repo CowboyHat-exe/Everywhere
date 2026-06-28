@@ -91,8 +91,9 @@ public sealed class ChatWindowInitializer(
                     hWnd = element?.NativeWindowHandle;
                     if (chatWindowHandle == hWnd) element = null; // Don't allow to select itself
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.LogDebug(ex, "Failed to get focused element for hotkey activation");
                     element = null;
                     hWnd = null;
                 }

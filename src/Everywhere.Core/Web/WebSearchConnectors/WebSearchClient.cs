@@ -68,7 +68,15 @@ public abstract class WebSearchClient<TResponse>(HttpClient httpClient, Range va
                 .ConfigureAwait(false);
             return content.SafeSubstring(0, 1024);
         }
-        catch
+        catch (OperationCanceledException)
+        {
+            return null;
+        }
+        catch (TimeoutException)
+        {
+            return null;
+        }
+        catch (Exception)
         {
             return null;
         }
