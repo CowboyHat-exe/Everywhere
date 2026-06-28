@@ -144,9 +144,7 @@ internal abstract class ScreenSelectionSession : ScreenSelectionTransparentWindo
 
     private void OnMouseWheel(int delta)
     {
-        var newIndex = _allowedModes.IndexOf(CurrentMode) + (delta > 0 ? -1 : 1);
-        newIndex = Math.Clamp(newIndex, 0, _allowedModes.Count - 1);
-        CurrentMode = _allowedModes[newIndex];
+        CurrentMode = ScreenSelectionHelpers.CycleMode(_allowedModes, CurrentMode, delta, wrap: false);
         HandlePickModeChanged();
     }
 
@@ -174,30 +172,16 @@ internal abstract class ScreenSelectionSession : ScreenSelectionTransparentWindo
 
     private void SetToolTipWindowPosition(PixelPoint pointerPoint)
     {
-        const int margin = 16;
-
         var screen = Screens.All.FirstOrDefault(s => s.Bounds.Contains(pointerPoint));
         if (screen == null) return;
 
-        var screenBounds = screen.Bounds;
         var tooltipSize = ToolTipWindow.Bounds.Size * ToolTipWindow.DesktopScaling;
+        var (x, y) = ScreenSelectionHelpers.CalculateTooltipPosition(
+            pointerPoint.X, pointerPoint.Y,
+            tooltipSize.Width, tooltipSize.Height,
+            screen.Bounds.Right);
 
-        var x = (double)pointerPoint.X;
-        var y = pointerPoint.Y - margin - tooltipSize.Height;
-
-        // Check if there is enough space above the pointer
-        if (y < 0d)
-        {
-            y = pointerPoint.Y + margin; // place below the pointer
-        }
-
-        // Check if there is enough space to the right of the pointer
-        if (x + tooltipSize.Width > screenBounds.Right)
-        {
-            x = pointerPoint.X - tooltipSize.Width; // place to the left of the pointer
-        }
-
-        ToolTipWindow.Position = new PixelPoint((int)x, (int)y);
+        ToolTipWindow.Position = new PixelPoint(x, y);
     }
 
     // Abstract/Virtual hooks

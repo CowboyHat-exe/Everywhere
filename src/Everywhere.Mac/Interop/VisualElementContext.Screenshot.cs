@@ -128,16 +128,8 @@ partial class VisualElementContext
             {
                 if (_isDragging)
                 {
-                    // point is Quartz
-                    var startX = _dragStart.X;
-                    var startY = _dragStart.Y;
-
-                    var minX = Math.Min(startX, point.X);
-                    var minY = Math.Min(startY, point.Y);
-                    var maxX = Math.Max(startX, point.X);
-                    var maxY = Math.Max(startY, point.Y);
-
-                    _dragRect = new PixelRect((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
+                    _dragRect = ScreenSelectionHelpers.CalculateDragRect(
+                        (int)_dragStart.X, (int)_dragStart.Y, (int)point.X, (int)point.Y);
 
                     foreach (var maskWindow in MaskWindows) maskWindow.SetMask(_dragRect);
                     UpdateToolTipInfo(_dragRect);

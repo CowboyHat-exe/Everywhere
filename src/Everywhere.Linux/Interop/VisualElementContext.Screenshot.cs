@@ -127,17 +127,8 @@ public partial class VisualElementContext
             {
                 if (_isDragging)
                 {
-                    var startX = _dragStart.X;
-                    var startY = _dragStart.Y;
-                    var px = point.X;
-                    var py = point.Y;
-
-                    var minX = Math.Min(startX, px);
-                    var minY = Math.Min(startY, py);
-                    var maxX = Math.Max(startX, px);
-                    var maxY = Math.Max(startY, py);
-
-                    _dragRect = new PixelRect(minX, minY, maxX - minX, maxY - minY);
+                    _dragRect = ScreenSelectionHelpers.CalculateDragRect(
+                        _dragStart.X, _dragStart.Y, point.X, point.Y);
 
                     foreach (var maskWindow in MaskWindows) maskWindow.SetMask(_dragRect);
                     UpdateToolTipInfo(_dragRect);
@@ -182,7 +173,7 @@ public partial class VisualElementContext
 
         private void UpdateToolTipInfo(PixelRect rect)
         {
-            ToolTipWindow.ToolTip.SizeInfo = $"{rect.Width} x {rect.Height}";
+            ToolTipWindow.ToolTip.SizeInfo = ScreenSelectionHelpers.FormatSizeInfo(rect);
         }
 
         private Bitmap? CaptureScreen(PixelRect rect)
