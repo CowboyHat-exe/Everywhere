@@ -122,9 +122,9 @@ public sealed class SystemPlugin : BuiltInChatPlugin
                      """,
                     cancellationToken)).Trim();
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore errors, just don't show title
+                _logger.LogDebug(ex, "Failed to get Reminders title for id {Id}", id);
             }
         }
 
@@ -289,9 +289,9 @@ public sealed class SystemPlugin : BuiltInChatPlugin
                      """,
                     cancellationToken)).Trim();
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore errors, just don't show title
+                _logger.LogDebug(ex, "Failed to get Calendar event title for id {Id}", id);
             }
         }
 
@@ -534,9 +534,9 @@ public sealed class SystemPlugin : BuiltInChatPlugin
                     actionScript,
                     cancellationToken)).Trim();
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore errors, just don't show title
+                _logger.LogDebug(ex, "Failed to get Notes title for id {Id}", id);
             }
         }
 

@@ -64,9 +64,9 @@ public sealed class EverythingPlugin : BuiltInChatPlugin
                     EverythingState.Exit();
                     that._watchdogManager.UnregisterProcessAsync(pid).Detach();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // ignore
+                    that._logger.LogWarning(ex, "Failed to shut down Everything process");
                 }
             },
             TimeSpan.FromMinutes(5));
@@ -77,9 +77,9 @@ public sealed class EverythingPlugin : BuiltInChatPlugin
             {
                 EverythingState.Exit();
             }
-            catch
+            catch (Exception ex)
             {
-                // ignore
+                _logger.LogWarning(ex, "Failed to exit Everything on process shutdown");
             }
         };
 

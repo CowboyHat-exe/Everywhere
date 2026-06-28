@@ -270,7 +270,10 @@ public sealed partial class ChatWindowViewModel :
             }
         }
         catch (OperationCanceledException) { }
-        catch (TimeoutException) { }
+        catch (TimeoutException ex)
+        {
+            _logger.LogWarning(ex, "Timeout while processing ActivateChatSessionMessage");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to process ActivateChatSessionMessage");

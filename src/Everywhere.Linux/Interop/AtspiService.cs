@@ -683,8 +683,9 @@ public sealed partial class AtspiService
             _cachedElement[elementObj] = elem;
             return elem;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogDebug(ex, "Failed to create AtspiVisualElement");
             return null;
         }
     }

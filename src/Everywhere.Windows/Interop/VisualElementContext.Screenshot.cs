@@ -4,6 +4,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Everywhere.Interop;
 using Everywhere.Utilities;
+using Serilog;
 using Point = System.Drawing.Point;
 
 namespace Everywhere.Windows.Interop;
@@ -68,9 +69,9 @@ public partial class VisualElementContext
                         _disposables.Add(pointer);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // If capture fails, we just don't show the background image (fallback to transparent/dimmed)
+                    Log.ForContext<VisualElementContext>().Warning(ex, "Screen capture failed for screen {ScreenIndex}, falling back to transparent/dimmed", i);
                 }
             }
         }

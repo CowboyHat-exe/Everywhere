@@ -32,10 +32,9 @@ public abstract class SettingsMigration
             {
                 modified |= task(root);
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore individual task errors to allow other tasks to run
-                Log.Warning("Migration task in {Migration} failed for version {Version}", GetType().Name, Version);
+                Log.Warning(ex, "Migration task in {Migration} failed for version {Version}", GetType().Name, Version);
             }
         }
         return modified;

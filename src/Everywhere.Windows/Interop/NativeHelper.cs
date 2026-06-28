@@ -11,6 +11,7 @@ using Everywhere.Common;
 using Everywhere.Extensions;
 using Everywhere.Interop;
 using Microsoft.Win32;
+using Serilog;
 
 namespace Everywhere.Windows.Interop;
 
@@ -49,9 +50,9 @@ public class NativeHelper : INativeHelper
                 using var key = Registry.CurrentUser.OpenSubKey(RegistryRunKey);
                 return key?.GetValue(AppName) != null;
             }
-            catch
+            catch (Exception ex)
             {
-                // If the registry key cannot be accessed, assume it is not enabled.
+                Log.ForContext<NativeHelper>().Warning(ex, "Failed to read user startup registry key");
                 return false;
             }
         }
@@ -78,8 +79,9 @@ public class NativeHelper : INativeHelper
             {
                 return TaskSchedulerHelper.IsTaskScheduled(AppName);
             }
-            catch
+            catch (Exception ex)
             {
+                Log.ForContext<NativeHelper>().Warning(ex, "Failed to check administrator startup task status");
                 return false;
             }
         }
@@ -146,9 +148,9 @@ public class NativeHelper : INativeHelper
         {
             EnsureAumidRegistered();
         }
-        catch
+        catch (Exception ex)
         {
-            // ignore
+            Log.ForContext<NativeHelper>().Warning(ex, "Failed to register AUMID for toast notifications");
         }
 
         try
@@ -177,8 +179,9 @@ public class NativeHelper : INativeHelper
 
             return tcs.Task;
         }
-        catch
+        catch (Exception ex)
         {
+            Log.ForContext<NativeHelper>().Warning(ex, "Failed to show desktop notification");
             return Task.FromResult(false);
         }
 

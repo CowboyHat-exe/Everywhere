@@ -424,8 +424,9 @@ partial class VisualElementContext
                         if (element is null) return;
                         if (element.GetCurrentProcessIdOrDefault() != pid) return;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Log.ForContext<TextSelectionDetector>().Debug(ex, "Failed to get focused automation element");
                         return;
                     }
 

@@ -158,9 +158,9 @@ public class I18NSourceGenerator : IIncrementalGenerator
                 }
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // Silently fail and return an empty dictionary
+            System.Diagnostics.Debug.WriteLine($"Failed to parse RESX entries: {ex.Message}");
             return new Dictionary<string, string>();
         }
 
