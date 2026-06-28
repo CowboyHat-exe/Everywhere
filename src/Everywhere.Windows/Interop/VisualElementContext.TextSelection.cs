@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Reactive.Disposables;
-using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
@@ -21,53 +19,21 @@ namespace Everywhere.Windows.Interop;
 
 partial class VisualElementContext
 {
-    private readonly Subject<TextSelectionData> _textSelectionSubject = new();
-    private IDisposable? _hookSubscription;
-    private int _subscriberCount;
+    private readonly TextSelectionMonitorImpl _textSelectionMonitor = new();
 
     public IDisposable Subscribe(IObserver<TextSelectionData> observer)
     {
-        var subscription = _textSelectionSubject.Subscribe(observer);
+        return _textSelectionMonitor.Subscribe(observer);
+    }
 
-        // Start monitoring when the first subscriber arrives
-        if (Interlocked.Increment(ref _subscriberCount) == 1)
+    private sealed class TextSelectionMonitorImpl : TextSelectionMonitor
+    {
+        protected override IDisposable CreateDetector(Action<TextSelectionData> onSelectionDetected)
         {
-            StartTextSelectionMonitoring();
+            var detector = new TextSelectionDetector();
+            detector.SelectionDetected += onSelectionDetected;
+            return detector;
         }
-
-        return Disposable.Create(() =>
-        {
-            subscription.Dispose();
-            // Stop monitoring when the last subscriber leaves
-            if (Interlocked.Decrement(ref _subscriberCount) == 0)
-            {
-                StopTextSelectionMonitoring();
-            }
-        });
-    }
-
-    private void StartTextSelectionMonitoring()
-    {
-        if (_hookSubscription != null) return;
-
-        var detector = new TextSelectionDetector();
-        detector.SelectionDetected += OnSelectionDetected;
-        _hookSubscription = detector;
-    }
-
-    private void StopTextSelectionMonitoring()
-    {
-        if (_hookSubscription is TextSelectionDetector detector)
-        {
-            detector.SelectionDetected -= OnSelectionDetected;
-            detector.Dispose();
-        }
-        _hookSubscription = null;
-    }
-
-    private void OnSelectionDetected(TextSelectionData data)
-    {
-        _textSelectionSubject.OnNext(data);
     }
 
     /// <summary>

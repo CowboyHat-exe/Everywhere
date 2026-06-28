@@ -218,10 +218,7 @@ internal abstract class ScreenSelectionSession : ScreenSelectionTransparentWindo
 
     private void OnMouseWheel(int delta)
     {
-        var newIndex = _allowedModes.IndexOf(CurrentMode) + (delta > 0 ? -1 : 1);
-        if (newIndex < 0) newIndex = _allowedModes.Count - 1;
-        else if (newIndex >= _allowedModes.Count) newIndex = 0;
-        CurrentMode = _allowedModes[newIndex];
+        CurrentMode = ScreenSelectionHelpers.CycleMode(_allowedModes, CurrentMode, delta);
         HandlePickModeChanged();
     }
 
@@ -380,7 +377,7 @@ internal abstract class ScreenSelectionSession : ScreenSelectionTransparentWindo
 
     protected void UpdateToolTipInfo(PixelRect rect)
     {
-        ToolTipWindow.ToolTip.SizeInfo = $"{rect.Width} x {rect.Height}";
+        ToolTipWindow.ToolTip.SizeInfo = ScreenSelectionHelpers.FormatSizeInfo(rect);
     }
 
     private static void GetWindowOwnerPidsAtLocation(CGPoint point, uint relativeToWindow, List<int> pids)

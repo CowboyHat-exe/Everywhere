@@ -138,12 +138,8 @@ public partial class VisualElementContext
             {
                 if (_isDragging)
                 {
-                    // Update Drag Rect
-                    var topLeft = new PixelPoint(Math.Min(_dragStart.X, pixelPoint.X), Math.Min(_dragStart.Y, pixelPoint.Y));
-                    var bottomRight = new PixelPoint(Math.Max(_dragStart.X, pixelPoint.X), Math.Max(_dragStart.Y, pixelPoint.Y));
-                    _dragRect = new PixelRect(topLeft, bottomRight); // Extension or constructor?
-                    // PixelRect constructor takes Point, Size.
-                    _dragRect = new PixelRect(topLeft, new PixelSize(bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y));
+                    _dragRect = ScreenSelectionHelpers.CalculateDragRect(
+                        _dragStart.X, _dragStart.Y, pixelPoint.X, pixelPoint.Y);
 
                     foreach (var maskWindow in MaskWindows) maskWindow.SetMask(_dragRect);
                     UpdateToolTipInfo(_dragRect);
@@ -177,7 +173,7 @@ public partial class VisualElementContext
 
         private void UpdateToolTipInfo(PixelRect rect)
         {
-            ToolTipWindow.ToolTip.SizeInfo = $"{rect.Width} x {rect.Height}";
+            ToolTipWindow.ToolTip.SizeInfo = ScreenSelectionHelpers.FormatSizeInfo(rect);
         }
     }
 }

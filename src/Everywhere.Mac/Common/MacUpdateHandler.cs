@@ -41,14 +41,7 @@ public sealed partial class MacUpdateHandler : IPlatformUpdateHandler
 
     public bool TryParseUpdatePackageVersion(string fileName, out Version? version)
     {
-        var match = VersionRegex().Match(fileName);
-        if (match.Success && Version.TryParse(match.Groups["version"].Value, out version))
-        {
-            return true;
-        }
-
-        version = null;
-        return false;
+        return UpdateVersionParser.TryParse(fileName, VersionRegex(), out version);
     }
 
     [GeneratedRegex(@"-v(?<version>\d+\.\d+\.\d+(\.\d+)?)\.pkg$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "zh-CN")]
